@@ -1,0 +1,66 @@
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.gallery-cards {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.search-form {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  margin-bottom: 20px;
+
+  & input {
+    padding: 10px;
+    min-width: 300px;
+  }
+}
+
+.button {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  min-width: 150px;
+  border-radius: 5px;
+}
+
+.button.is-hidden {
+  display: none;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 20px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  max-width: calc(100vw - 80px);
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+}
+
+.gallery li {
+  overflow: hidden;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.stats-item {
+  display: flex;
+  margin: 0;
+}
+.material-icons {
+  margin-right: 5px;
+}
