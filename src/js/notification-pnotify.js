@@ -13,4 +13,20 @@ export default class NotificationPnotify {
       delay: 3000,
     });
   }
+
+  noFound() {
+    notice({
+      text: 'No matches found',
+      hide: true,
+      delay: 3000,
+    });
+  }
+
+  error() {
+    error({
+      text: 'Error',
+      hide: true,
+      delay: 3000,
+    });
+  }
 }

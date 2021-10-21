@@ -6,10 +6,11 @@ export default class PixabayApiService {
     this.searchQuery = '';
     this.perPage = 12;
     this.page = 1;
+    this.lang = 'ua, de, en, ru,';
   }
 
   fetchArticles() {
-    const url = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.page}&per_page=${this.perPage}&key=${API_KEY}`;
+    const url = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.page}&per_page=${this.perPage}&${this.lang}&key=${API_KEY}`;
 
     return fetch(url)
       .then(response => response.json())

@@ -7,6 +7,7 @@ import './sass/main.scss';
 import getRefs from './js/get-refs.js';
 
 const refs = getRefs();
+const elem = refs.photoCards.children;
 
 const pixabayApiService = new PixabayApiService();
 const loadMoreBtn = new LoadMoreBtn({ selector: '[data-action="load-more"]', hidden: true });
@@ -17,28 +18,33 @@ loadMoreBtn.refs.button.addEventListener('click', fetchGallery);
 
 function onSearch(event) {
   pixabayApiService.query = event.target.value.trim();
-
   refs.photoCards.innerHTML = '';
 
-  if (pixabayApiService.query === '') {
+  if (pixabayApiService.query !== '') {
+    pixabayApiService.resetPage();
+    fetchGallery();
+    loadMoreBtn.show();
+  } else {
     loadMoreBtn.hide();
-    return error.empty();
+    error.empty();
   }
-
-  pixabayApiService.resetPage();
-  fetchGallery();
-  loadMoreBtn.show();
 }
 
 function fetchGallery() {
   loadMoreBtn.disable();
 
-  pixabayApiService.fetchArticles().then(hits => {
-    appendPhotoCardsMarkup(hits);
-
-    loadMoreBtn.enable();
-    onGalleryScroll();
-  });
+  pixabayApiService
+    .fetchArticles()
+    .then(hits => {
+      appendPhotoCardsMarkup(hits);
+      if (elem.length === 0) {
+        loadMoreBtn.hide();
+        error.noFound();
+      }
+      loadMoreBtn.enable();
+      onGalleryScroll();
+    })
+    .catch(error => error.error);
 }
 
 function appendPhotoCardsMarkup(hits) {
@@ -46,9 +52,10 @@ function appendPhotoCardsMarkup(hits) {
 }
 
 function onGalleryScroll() {
-  const elem = refs.photoCards.children;
-  elem[elem.length - pixabayApiService.perPage].scrollIntoView({
-    behavior: 'smooth',
-    // block: 'end',
-  });
+  setTimeout(() => {
+    loadMoreBtn.refs.button.scrollIntoView({
+      behavior: 'smooth',
+      // block: 'end',
+    });
+  }, 500);
 }
