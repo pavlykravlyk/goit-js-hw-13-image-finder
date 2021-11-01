@@ -19,9 +19,10 @@ function onSearch(event) {
 
   if (pixabayApiService.query !== '') {
     pixabayApiService.resetPage();
-    lazyScroll();
+    observer.observe(refs.loadMore);
   } else {
     error.empty();
+    observer.unobserve(refs.loadMore);
   }
 }
 
@@ -41,19 +42,17 @@ function appendPhotoCardsMarkup(hits) {
   refs.photoCards.insertAdjacentHTML('beforeend', photoCardsTpl(hits));
 }
 
-function lazyScroll() {
-  const onEntry = entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        fetchGallery();
-      }
-    });
-  };
-
-  const options = {
-    rootMargin: '200px',
-  };
-
-  const observer = new IntersectionObserver(onEntry, options);
-  observer.observe(refs.loadMore);
+// Lazy Loader
+function onEntry(entries) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      fetchGallery();
+    }
+  });
 }
+
+const options = {
+  rootMargin: '300px',
+};
+
+const observer = new IntersectionObserver(onEntry, options);
