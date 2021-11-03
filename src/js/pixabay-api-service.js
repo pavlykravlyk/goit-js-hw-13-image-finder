@@ -20,15 +20,13 @@ export default class PixabayApiService {
       key: API_KEY,
     });
 
-    const url = `${BASE_URL}?${searchParams}`;
+    const response = await fetch(`${BASE_URL}?${searchParams}`);
+    const articles = await response.json();
 
-    return await fetch(url)
-      .then(response => response.json())
-      .then(({ hits }) => {
-        this.incrementPage();
+    this.incrementPage();
 
-        return hits;
-      });
+    return articles.hits;
+    // return (await (await fetch(`${BASE_URL}?${searchParams}`)).json()).hits;
   }
 
   incrementPage() {

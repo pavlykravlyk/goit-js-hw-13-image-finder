@@ -26,20 +26,20 @@ function onSearch(event) {
   }
 }
 
-function fetchGallery() {
-  pixabayApiService
-    .fetchArticles()
-    .then(hits => {
-      appendPhotoCardsMarkup(hits);
-      if (elem.length === 0) {
-        error.noFound();
-      }
-    })
-    .catch(error => error.error);
+async function fetchGallery() {
+  try {
+    appendPhotoCardsMarkup(await pixabayApiService.fetchArticles());
+
+    if (elem.length === 0) {
+      error.noFound();
+    }
+  } catch {
+    error => error.error;
+  }
 }
 
-function appendPhotoCardsMarkup(hits) {
-  refs.photoCards.insertAdjacentHTML('beforeend', photoCardsTpl(hits));
+function appendPhotoCardsMarkup(images) {
+  refs.photoCards.insertAdjacentHTML('beforeend', photoCardsTpl(images));
 }
 
 // Lazy Loader
